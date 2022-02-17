@@ -17,9 +17,9 @@ namespace BugTracker.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
+        private readonly UserManager<BTUser> _userManager;
 
-        public ConfirmEmailModel(UserManager<BTUserModel> userManager)
+        public ConfirmEmailModel(UserManager<BTUser> userManager)
         {
             _userManager = userManager;
         }

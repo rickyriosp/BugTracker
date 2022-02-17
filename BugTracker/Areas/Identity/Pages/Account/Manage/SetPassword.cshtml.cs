@@ -14,12 +14,12 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
-        private readonly SignInManager<BTUserModel> _signInManager;
+        private readonly UserManager<BTUser> _userManager;
+        private readonly SignInManager<BTUser> _signInManager;
 
         public SetPasswordModel(
-            UserManager<BTUserModel> userManager,
-            SignInManager<BTUserModel> signInManager)
+            UserManager<BTUser> userManager,
+            SignInManager<BTUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

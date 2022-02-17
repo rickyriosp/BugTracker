@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<BTUserModel>
+    public class ApplicationDbContext : IdentityDbContext<BTUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
