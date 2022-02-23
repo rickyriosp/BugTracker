@@ -18,13 +18,13 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class EmailModel : PageModel
     {
-        private readonly UserManager<BTUser> _userManager;
-        private readonly SignInManager<BTUser> _signInManager;
+        private readonly UserManager<BTUserModel> _userManager;
+        private readonly SignInManager<BTUserModel> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public EmailModel(
-            UserManager<BTUser> userManager,
-            SignInManager<BTUser> signInManager,
+            UserManager<BTUserModel> userManager,
+            SignInManager<BTUserModel> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -74,7 +74,7 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
             public string NewEmail { get; set; }
         }
 
-        private async Task LoadAsync(BTUser user)
+        private async Task LoadAsync(BTUserModel user)
         {
             var email = await _userManager.GetEmailAsync(user);
             Email = email;

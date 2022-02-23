@@ -14,13 +14,13 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
     {
-        private readonly UserManager<BTUser> _userManager;
-        private readonly SignInManager<BTUser> _signInManager;
+        private readonly UserManager<BTUserModel> _userManager;
+        private readonly SignInManager<BTUserModel> _signInManager;
         private readonly ILogger<ResetAuthenticatorModel> _logger;
 
         public ResetAuthenticatorModel(
-            UserManager<BTUser> userManager,
-            SignInManager<BTUser> signInManager,
+            UserManager<BTUserModel> userManager,
+            SignInManager<BTUserModel> signInManager,
             ILogger<ResetAuthenticatorModel> logger)
         {
             _userManager = userManager;

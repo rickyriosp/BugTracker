@@ -1,4 +1,4 @@
-﻿@inject SignInManager<BTUser> SignInManager
+﻿@inject SignInManager<BTUserModel> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

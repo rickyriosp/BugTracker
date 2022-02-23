@@ -15,12 +15,12 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<BTUser> _userManager;
-        private readonly SignInManager<BTUser> _signInManager;
+        private readonly UserManager<BTUserModel> _userManager;
+        private readonly SignInManager<BTUserModel> _signInManager;
 
         public IndexModel(
-            UserManager<BTUser> userManager,
-            SignInManager<BTUser> signInManager)
+            UserManager<BTUserModel> userManager,
+            SignInManager<BTUserModel> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -61,7 +61,7 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(BTUser user)
+        private async Task LoadAsync(BTUserModel user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);

@@ -18,10 +18,10 @@ namespace BugTracker.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<BTUser> _userManager;
+        private readonly UserManager<BTUserModel> _userManager;
         private readonly IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<BTUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<BTUserModel> userManager, IEmailSender sender)
         {
             _userManager = userManager;
             _sender = sender;

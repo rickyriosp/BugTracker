@@ -15,13 +15,13 @@ namespace BugTracker.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel
     {
-        private readonly SignInManager<BTUser> _signInManager;
-        private readonly UserManager<BTUser> _userManager;
+        private readonly SignInManager<BTUserModel> _signInManager;
+        private readonly UserManager<BTUserModel> _userManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
 
         public LoginWithRecoveryCodeModel(
-            SignInManager<BTUser> signInManager,
-            UserManager<BTUser> userManager,
+            SignInManager<BTUserModel> signInManager,
+            UserManager<BTUserModel> userManager,
             ILogger<LoginWithRecoveryCodeModel> logger)
         {
             _signInManager = signInManager;
