@@ -32,6 +32,7 @@ namespace BugTracker.Models
         [DisplayName("File Extension")]
         public string FileContentType { get; set; }
 
+
         // Navigation properties
         public virtual Ticket Ticket { get; set; }
         public virtual BTUserModel User { get; set; }
