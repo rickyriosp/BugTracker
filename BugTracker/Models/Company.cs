@@ -2,7 +2,7 @@
 
 namespace BugTracker.Models
 {
-    public class CompanyModel
+    public class Company
     {
         public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace BugTracker.Models
 
 
         // Navigation properties
-        public virtual ICollection<BTUserModel> Members { get; set; } = new HashSet<BTUserModel>();
-        public virtual ICollection<ProjectModel> Projects { get; set; } = new HashSet<ProjectModel>();
+        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
+        public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
     }
 }

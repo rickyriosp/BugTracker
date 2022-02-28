@@ -17,9 +17,9 @@ namespace BugTracker.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
+        private readonly UserManager<BTUser> _userManager;
 
-        public ResetPasswordModel(UserManager<BTUserModel> userManager)
+        public ResetPasswordModel(UserManager<BTUser> userManager)
         {
             _userManager = userManager;
         }

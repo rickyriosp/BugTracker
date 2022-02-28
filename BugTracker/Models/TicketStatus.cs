@@ -2,11 +2,11 @@
 
 namespace BugTracker.Models
 {
-    public class TicketPriorityModel
+    public class TicketStatus
     {
         public int Id { get; set; }
 
-        [DisplayName("Priority Name")]
+        [DisplayName("Status Name")]
         public string Name { get; set; }
     }
 }

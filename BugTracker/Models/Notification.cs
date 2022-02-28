@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models
 {
-    public class NotificationModel
+    public class Notification
     {
         public int Id { get; set; }
 
@@ -35,8 +35,8 @@ namespace BugTracker.Models
 
 
         // Navigation properties
-        public virtual TicketModel Ticket { get; set; }
-        public virtual BTUserModel Recipient { get; set; }
-        public virtual BTUserModel Sender { get; set; }
+        public virtual Ticket Ticket { get; set; }
+        public virtual BTUser Recipient { get; set; }
+        public virtual BTUser Sender { get; set; }
     }
 }

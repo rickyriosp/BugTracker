@@ -24,17 +24,17 @@ namespace BugTracker.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<BTUserModel> _signInManager;
-        private readonly UserManager<BTUserModel> _userManager;
-        private readonly IUserStore<BTUserModel> _userStore;
-        private readonly IUserEmailStore<BTUserModel> _emailStore;
+        private readonly SignInManager<BTUser> _signInManager;
+        private readonly UserManager<BTUser> _userManager;
+        private readonly IUserStore<BTUser> _userStore;
+        private readonly IUserEmailStore<BTUser> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
-            SignInManager<BTUserModel> signInManager,
-            UserManager<BTUserModel> userManager,
-            IUserStore<BTUserModel> userStore,
+            SignInManager<BTUser> signInManager,
+            UserManager<BTUser> userManager,
+            IUserStore<BTUser> userStore,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
         {
@@ -198,27 +198,27 @@ namespace BugTracker.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private BTUserModel CreateUser()
+        private BTUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<BTUserModel>();
+                return Activator.CreateInstance<BTUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(BTUserModel)}'. " +
-                    $"Ensure that '{nameof(BTUserModel)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(BTUser)}'. " +
+                    $"Ensure that '{nameof(BTUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
             }
         }
 
-        private IUserEmailStore<BTUserModel> GetEmailStore()
+        private IUserEmailStore<BTUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<BTUserModel>)_userStore;
+            return (IUserEmailStore<BTUser>)_userStore;
         }
     }
 }

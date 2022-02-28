@@ -19,10 +19,10 @@ namespace BugTracker.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
+        private readonly UserManager<BTUser> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<BTUserModel> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<BTUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;

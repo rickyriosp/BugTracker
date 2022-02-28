@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models
 {
-    public class TicketModel
+    public class Ticket
     {
         public int Id { get; set; }
 
@@ -48,16 +48,16 @@ namespace BugTracker.Models
 
         // Navigation properties
         // virtual allows EF Core to do lazy loading and modify tracking
-        public virtual ProjectModel Project { get; set; }
-        public virtual TicketTypeModel TicketType { get; set; }
-        public virtual TicketPriorityModel TicketPriority { get; set; }
-        public virtual TicketStatusModel TicketStatus { get; set; }
-        public virtual BTUserModel OwnerUser { get; set; }
-        public virtual BTUserModel DeveloperUser { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual TicketType TicketType { get; set; }
+        public virtual TicketPriority TicketPriority { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
+        public virtual BTUser OwnerUser { get; set; }
+        public virtual BTUser DeveloperUser { get; set; }
 
-        public virtual ICollection<TicketCommentModel> Comments { get; set; } = new HashSet<TicketCommentModel>();
-        public virtual ICollection<TicketAttachmentModel> Attachments { get; set; } = new HashSet<TicketAttachmentModel>();
-        public virtual ICollection<TicketHistoryModel> History { get; set; } = new HashSet<TicketHistoryModel>();
-        public virtual ICollection<NotificationModel> Notifications { get; set; } = new HashSet<NotificationModel>();
+        public virtual ICollection<TicketComment> Comments { get; set; } = new HashSet<TicketComment>();
+        public virtual ICollection<TicketAttachment> Attachments { get; set; } = new HashSet<TicketAttachment>();
+        public virtual ICollection<TicketHistory> History { get; set; } = new HashSet<TicketHistory>();
+        public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
     }
 }

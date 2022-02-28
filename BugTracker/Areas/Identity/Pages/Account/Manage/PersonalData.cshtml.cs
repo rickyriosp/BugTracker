@@ -12,11 +12,11 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class PersonalDataModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
+        private readonly UserManager<BTUser> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
 
         public PersonalDataModel(
-            UserManager<BTUserModel> userManager,
+            UserManager<BTUser> userManager,
             ILogger<PersonalDataModel> logger)
         {
             _userManager = userManager;

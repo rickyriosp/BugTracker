@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugTracker.Models
 {
-    public class TicketAttachmentModel
+    public class TicketAttachment
     {
         public int Id { get; set; }
 
@@ -34,7 +34,7 @@ namespace BugTracker.Models
 
 
         // Navigation properties
-        public virtual TicketModel Ticket { get; set; }
-        public virtual BTUserModel User { get; set; }
+        public virtual Ticket Ticket { get; set; }
+        public virtual BTUser User { get; set; }
     }
 }

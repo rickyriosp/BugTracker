@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugTracker.Models
 {
-    public class ProjectModel
+    public class Project
     {
         public int Id { get; set; }
 
@@ -48,10 +48,10 @@ namespace BugTracker.Models
 
 
         // Navigation properties
-        public virtual CompanyModel Company { get; set; }
-        public virtual ProjectPriorityModel ProjectPriority { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual ProjectPriority ProjectPriority { get; set; }
 
-        public virtual ICollection<BTUserModel> Members { get; set; } = new HashSet<BTUserModel>();
-        public virtual ICollection<TicketModel> Tickets { get; set; } = new HashSet<TicketModel>();
+        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
+        public virtual ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
     }
 }

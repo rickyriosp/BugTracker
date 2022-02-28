@@ -19,13 +19,13 @@ namespace BugTracker.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<BTUserModel> _signInManager;
-        private readonly UserManager<BTUserModel> _userManager;
+        private readonly SignInManager<BTUser> _signInManager;
+        private readonly UserManager<BTUser> _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<BTUserModel> signInManager,
-            UserManager<BTUserModel> userManager,
+            SignInManager<BTUser> signInManager,
+            UserManager<BTUser> userManager,
             ILogger<LoginWith2faModel> logger)
         {
             _signInManager = signInManager;

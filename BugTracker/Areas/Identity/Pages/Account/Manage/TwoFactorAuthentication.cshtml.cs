@@ -14,12 +14,12 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class TwoFactorAuthenticationModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
-        private readonly SignInManager<BTUserModel> _signInManager;
+        private readonly UserManager<BTUser> _userManager;
+        private readonly SignInManager<BTUser> _signInManager;
         private readonly ILogger<TwoFactorAuthenticationModel> _logger;
 
         public TwoFactorAuthenticationModel(
-            UserManager<BTUserModel> userManager, SignInManager<BTUserModel> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
+            UserManager<BTUser> userManager, SignInManager<BTUser> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;

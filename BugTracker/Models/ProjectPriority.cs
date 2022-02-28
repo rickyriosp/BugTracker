@@ -2,7 +2,7 @@
 
 namespace BugTracker.Models
 {
-    public class ProjectPriorityModel
+    public class ProjectPriority
     {
         public int Id { get; set; }
 

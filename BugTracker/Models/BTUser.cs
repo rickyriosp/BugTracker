@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugTracker.Models
 {
-    public class BTUserModel : IdentityUser
+    public class BTUser : IdentityUser
     {
         [Required]
         [Display(Name = "First Name")]
@@ -37,7 +37,7 @@ namespace BugTracker.Models
 
 
         // Navigation properties
-        public virtual CompanyModel Company { get; set; }
-        public virtual ICollection<ProjectModel> Projects { get; set; } = new HashSet<ProjectModel>();
+        public virtual Company Company { get; set; }
+        public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
     }
 }

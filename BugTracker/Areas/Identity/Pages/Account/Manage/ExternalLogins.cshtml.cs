@@ -17,14 +17,14 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
-        private readonly SignInManager<BTUserModel> _signInManager;
-        private readonly IUserStore<BTUserModel> _userStore;
+        private readonly UserManager<BTUser> _userManager;
+        private readonly SignInManager<BTUser> _signInManager;
+        private readonly IUserStore<BTUser> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<BTUserModel> userManager,
-            SignInManager<BTUserModel> signInManager,
-            IUserStore<BTUserModel> userStore)
+            UserManager<BTUser> userManager,
+            SignInManager<BTUser> signInManager,
+            IUserStore<BTUser> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -70,7 +70,7 @@ namespace BugTracker.Areas.Identity.Pages.Account.Manage
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<BTUserModel> userPasswordStore)
+            if (_userStore is IUserPasswordStore<BTUser> userPasswordStore)
             {
                 passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
             }

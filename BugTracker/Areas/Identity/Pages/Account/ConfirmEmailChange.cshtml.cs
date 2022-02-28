@@ -16,10 +16,10 @@ namespace BugTracker.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailChangeModel : PageModel
     {
-        private readonly UserManager<BTUserModel> _userManager;
-        private readonly SignInManager<BTUserModel> _signInManager;
+        private readonly UserManager<BTUser> _userManager;
+        private readonly SignInManager<BTUser> _signInManager;
 
-        public ConfirmEmailChangeModel(UserManager<BTUserModel> userManager, SignInManager<BTUserModel> signInManager)
+        public ConfirmEmailChangeModel(UserManager<BTUser> userManager, SignInManager<BTUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
