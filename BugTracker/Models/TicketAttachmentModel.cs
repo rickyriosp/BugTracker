@@ -34,7 +34,7 @@ namespace BugTracker.Models
 
 
         // Navigation properties
-        public virtual Ticket Ticket { get; set; }
+        public virtual TicketModel Ticket { get; set; }
         public virtual BTUserModel User { get; set; }
     }
 }

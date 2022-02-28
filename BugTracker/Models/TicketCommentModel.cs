@@ -15,15 +15,12 @@ namespace BugTracker.Models
         [DisplayName("Date Created")]
         public DateTimeOffset Created { get; set; }
 
-        [DisplayName("Date Modified")]
-        public DateTimeOffset Updated { get; set; }
-
         [DisplayName("Team Member")]
         public string UserId { get; set; }
 
 
         // Navigation properties
-        public virtual Ticket Ticket { get; set; }
+        public virtual TicketModel Ticket { get; set; }
         public virtual BTUserModel User { get; set; }
     }
 }
