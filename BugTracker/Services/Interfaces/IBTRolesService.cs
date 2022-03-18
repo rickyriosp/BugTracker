@@ -4,7 +4,7 @@ namespace BugTracker.Services.Interfaces
 {
     public interface IBTRolesService
     {
-        Task<bool> IsUserEnrolledAsync(BTUser user, string roleName);
+        Task<bool> IsUserInRoleAsync(BTUser user, string roleName);
 
         Task<IEnumerable<string>> GetUserRolesAsync(BTUser user);
 
