@@ -38,7 +38,8 @@ namespace BugTracker.Controllers
             var project = await _context.Projects
                 .Include(p => p.Company)
                 .Include(p => p.ProjectPriority)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(p => p.Id == id);
             if (project == null)
             {
                 return NotFound();
