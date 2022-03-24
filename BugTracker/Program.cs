@@ -24,6 +24,7 @@ builder.Services.AddControllersWithViews();
 // Reguster our services
 builder.Services.AddScoped<IBTRolesService, BTRolesService>();
 builder.Services.AddScoped<IBTCompanyInfoService, BTCompanyInfoService>();
+builder.Services.AddScoped<IBTProjectService, BTProjectService>();
 
 var app = builder.Build();
 
