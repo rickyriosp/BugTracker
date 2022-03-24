@@ -34,7 +34,7 @@ namespace BugTracker.Services.Interfaces
 
         Task<List<Project>> GetUserProjectsAsync(string userId);
 
-        Task<bool> IsUserOnProject(string userId, int projectId);
+        Task<bool> IsUserOnProjectAsync(string userId, int projectId);
 
         Task<int> LookupProjectPriorityIdAsync(string priorityName);
 
