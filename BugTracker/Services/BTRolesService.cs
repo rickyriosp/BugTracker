@@ -58,13 +58,6 @@ namespace BugTracker.Services
             return result;
         }
 
-        public async Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
-        {
-            bool result = await _userManager.IsInRoleAsync(user, roleName);
-
-            return result;
-        }
-
         public async Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
         {
             bool result = (await _userManager.RemoveFromRoleAsync(user, roleName)).Succeeded;
@@ -75,6 +68,13 @@ namespace BugTracker.Services
         public async Task<bool> RemoveUserFromRolesAsync(BTUser user, IEnumerable<string> roles)
         {
             bool result = (await _userManager.RemoveFromRolesAsync(user, roles)).Succeeded;
+
+            return result;
+        }
+        
+        public async Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
+        {
+            bool result = await _userManager.IsInRoleAsync(user, roleName);
 
             return result;
         }

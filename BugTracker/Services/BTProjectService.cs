@@ -17,12 +17,39 @@ namespace BugTracker.Services
             _rolesService = rolesService;
         }
 
-        // CRUD - Create
+        // CRUD Methods
         public async Task AddNewProjectAsync(Project project)
         {
             _context.Add(project);
             await _context.SaveChangesAsync();
         }
+        
+        public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
+        {
+            Project? project = await _context.Projects
+                .Include(p => p.Tickets)
+                .Include(p => p.Members)
+                .Include(p => p.ProjectPriority)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
+
+            return project!;
+        }
+        
+        public async Task ArchiveProjectAsync(Project project)
+        {
+            project.Archived = true;
+
+            _context.Projects.Update(project);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task UpdateProjectAsync(Project project)
+        {
+            _context.Update(project);
+            await _context.SaveChangesAsync();
+        }
+
 
         public async Task<bool> AddProjectManagerAsync(string userId, int projectId)
         {
@@ -80,15 +107,6 @@ namespace BugTracker.Services
             }
 
             return false;
-        }
-
-        // CRUD - Archive (Delete)
-        public async Task ArchiveProjectAsync(Project project)
-        {
-            project.Archived = true;
-
-            _context.Projects.Update(project);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
@@ -152,19 +170,6 @@ namespace BugTracker.Services
             List<BTUser> developers = await GetProjectMembersByRoleAsync(projectId, Roles.Developer.ToString());
 
             return developers;
-        }
-
-        // CRUD - Read
-        public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
-        {
-            Project? project = await _context.Projects
-                .Include(p => p.Tickets)
-                .Include(p => p.Members)
-                .Include(p => p.ProjectPriority)
-                .AsSplitQuery()
-                .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
-
-            return project!;
         }
 
         public async Task<BTUser> GetProjectManagerAsync(int projectId)
@@ -257,29 +262,6 @@ namespace BugTracker.Services
             return users.Where(u => u.CompanyId == companyId).ToList();
         }
 
-        public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
-        {
-            Project? project = await _context.Projects
-                .Include(p => p.Members)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-
-            bool result = false;
-
-            if (project != null)
-            {
-                result = project.Members.Any(m => m.Id == userId);
-            }
-            
-            return result;
-        }
-
-        public async Task<int> LookupProjectPriorityIdAsync(string priorityName)
-        {
-            int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
-
-            return priorityId;
-        }
-
         public async Task RemoveProjectManagerAsync(int projectId)
         {
             Project? project = await _context.Projects
@@ -356,12 +338,29 @@ namespace BugTracker.Services
                 throw;
             }
         }
-
-        // CRUD - Update
-        public async Task UpdateProjectAsync(Project project)
+        
+        
+        public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
-            _context.Update(project);
-            await _context.SaveChangesAsync();
+            Project? project = await _context.Projects
+                .Include(p => p.Members)
+                .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            bool result = false;
+
+            if (project != null)
+            {
+                result = project.Members.Any(m => m.Id == userId);
+            }
+            
+            return result;
+        }
+
+        public async Task<int> LookupProjectPriorityIdAsync(string priorityName)
+        {
+            int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
+
+            return priorityId;
         }
     }
 }
