@@ -42,7 +42,8 @@ namespace BugTracker.Controllers
                 .Include(t => t.TicketPriority)
                 .Include(t => t.TicketStatus)
                 .Include(t => t.TicketType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(t => t.Id == id);
             if (ticket == null)
             {
                 return NotFound();

@@ -1,29 +1,59 @@
-﻿using BugTracker.Models;
+﻿using BugTracker.Data;
+using BugTracker.Models;
 using BugTracker.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Services
 {
     public class BTTicketService : IBTTicketService
     {
+        private readonly ApplicationDbContext _context;
+        private readonly IBTRolesService _rolesService;
+        private readonly IBTProjectService _projectService;
+
+        public BTTicketService(ApplicationDbContext context, IBTRolesService rolesService, IBTProjectService projectService)
+        {
+            _context = context;
+            _rolesService = rolesService;
+            _projectService = projectService;
+        }
+
         // CRUD Methods
-        public Task AddNewTicketAsync(Ticket ticket)
+        public async Task AddNewTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Add(ticket);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Ticket> GetTicketByIdAsync(int ticketId)
+        public async Task<Ticket> GetTicketByIdAsync(int ticketId)
         {
-            throw new NotImplementedException();
+            Ticket? ticket = await _context.Tickets
+                .Include(t => t.DeveloperUser)
+                .Include(t => t.OwnerUser)
+                .Include(t => t.Project)
+                .Include(t => t.TicketPriority)
+                .Include(t => t.TicketStatus)
+                .Include(t => t.TicketType)
+                .Include(t => t.Comments)
+                .Include(t => t.History)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(t => t.Id == ticketId);
+
+            return ticket;
         }
 
-        public Task UpdateTicketAsync(Ticket ticket)
+        public async Task UpdateTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Update(ticket);
+            await _context.SaveChangesAsync();
         }
 
-        public Task ArchiveTicketAsync(Ticket ticket)
+        public async Task ArchiveTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            ticket.Archived = true;
+
+            _context.Update(ticket);
+            await _context.SaveChangesAsync();
         }
 
 
