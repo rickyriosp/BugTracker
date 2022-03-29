@@ -16,7 +16,7 @@ namespace BugTracker.Services.Interfaces
         Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName);
         Task<List<Ticket>> GetAllTicketsByStatusAsync(int companyId, string statusName);
         Task<List<Ticket>> GetAllTicketsByTypeAsync(int companyId, string typeName);
-        Task<BTUser> GetTicketDeveloperAsync(int ticketId);
+        Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId);
         Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId);
         Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId);
         Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId, int companyId);

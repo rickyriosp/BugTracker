@@ -242,8 +242,8 @@ namespace BugTracker.Services
                         .ThenInclude(p => p.Tickets)
                             .ThenInclude(t => t.TicketType)
                     .AsSplitQuery()
-                    .FirstOrDefaultAsync(u => u.Id == userId))!
-                    .Projects.ToList()!;
+                    .FirstOrDefaultAsync(u => u.Id == userId))
+                    .Projects.ToList();
 
                 return userProjects;
             }
