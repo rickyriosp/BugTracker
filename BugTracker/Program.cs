@@ -3,6 +3,7 @@ using BugTracker.Models;
 using BugTracker.Services;
 using BugTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,14 @@ builder.Services.AddDefaultIdentity<BTUser>(options => options.SignIn.RequireCon
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+
+// Add response compression
+builder.Services.AddResponseCompression(configureOptions =>
+{
+    configureOptions.Providers.Add<BrotliCompressionProvider>();
+    configureOptions.Providers.Add<GzipCompressionProvider>();
+    configureOptions.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] {"image/svg+xml"});
+});
 
 // Reguster our services
 builder.Services.AddScoped<IBTRolesService, BTRolesService>();
