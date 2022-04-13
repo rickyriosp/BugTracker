@@ -1,6 +1,7 @@
 ﻿using BugTracker.Data;
 using BugTracker.Models;
 using BugTracker.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Services
 {
@@ -157,14 +158,52 @@ namespace BugTracker.Services
             }
         }
 
-        public Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
+        public async Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Project> projects = (await _context.Companies
+                    .Include(c => c.Projects)
+                        .ThenInclude(p => p.Tickets)
+                            .ThenInclude(t => t.History)
+                                .ThenInclude(h => h.User)
+                    .AsSplitQuery()
+                    .FirstOrDefaultAsync(c => c.Id == companyId))!
+                    .Projects.ToList();
+
+                List<Ticket> tickets = projects.SelectMany(p => p.Tickets).ToList();
+
+                List<TicketHistory> ticketHistories = tickets.SelectMany(t => t.History).ToList();
+
+                return ticketHistories;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** ERROR ***** - Error Getting Company Tickets History. ---> {ex.Message}");
+                throw;
+            }
         }
 
-        public Task<List<TicketHistory>> GetProjectTicketsHistoriesAsync(int projectId, int companyId)
+        public async Task<List<TicketHistory>> GetProjectTicketsHistoriesAsync(int projectId, int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Project project = await _context.Projects.Where(p => p.CompanyId == companyId)
+                    .Include(p => p.Tickets)
+                        .ThenInclude(t => t.History)
+                            .ThenInclude(h => h.User)
+                    .AsSplitQuery()
+                    .FirstOrDefaultAsync(p => p.Id == projectId);
+
+                List<TicketHistory> ticketHistories = project.Tickets.SelectMany(t => t.History).ToList();
+
+                return ticketHistories;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** ERROR ***** - Error Getting Project Tickets History. ---> {ex.Message}");
+                throw;
+            }
         }
     }
 }
