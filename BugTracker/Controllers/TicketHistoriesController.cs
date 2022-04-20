@@ -64,7 +64,7 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ticketHistory);
+                await _context.AddAsync(ticketHistory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
