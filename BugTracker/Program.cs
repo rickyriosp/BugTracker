@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var connectionString = DataUtility.GetConnectionString(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+    options.UseNpgsql(connectionString, op => op.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))); // Global Split Queries
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<BTUser>(options => options.SignIn.RequireConfirmedAccount = true)
