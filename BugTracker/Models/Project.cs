@@ -17,15 +17,15 @@ namespace BugTracker.Models
         public string Name { get; set; }
 
         [DisplayName("Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayName("Start Date")]
-        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayName("End Date")]
-        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         [DisplayName("Project Priority")]
         public int? ProjectPriorityId { get; set; }
@@ -35,16 +35,16 @@ namespace BugTracker.Models
         public IFormFile ImageFormFile { get; set; }
 
         [DisplayName("File Name")]
-        public string ImageFileName { get; set; }
+        public string? ImageFileName { get; set; }
 
         [DisplayName("File Data")]
-        public byte[] ImageFileData { get; set; }
+        public byte[]? ImageFileData { get; set; }
 
         [DisplayName("File Extension")]
-        public string ImageContentType { get; set; }
+        public string? ImageContentType { get; set; }
 
         [DisplayName("Archived")]
-        public bool Archived { get; set; }
+        public bool Archived { get; set; } = false;
 
 
         // Navigation properties

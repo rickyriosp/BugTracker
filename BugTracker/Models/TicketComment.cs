@@ -7,16 +7,16 @@ namespace BugTracker.Models
         public int Id { get; set; }
 
         [DisplayName("Ticket")]
-        public int TicketId { get; set; }
+        public int? TicketId { get; set; }
 
         [DisplayName("Member Comment")]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         [DisplayName("Date Created")]
-        public DateTimeOffset Created { get; set; }
+        public DateTimeOffset? Created { get; set; }
 
         [DisplayName("Team Member")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
 
         // Navigation properties

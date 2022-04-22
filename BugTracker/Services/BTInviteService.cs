@@ -130,7 +130,7 @@ namespace BugTracker.Services
                 }
 
                 // Determine invite date
-                DateTime inviteDate = invite.InviteDate.DateTime;
+                DateTime inviteDate = ((DateTimeOffset)invite.InviteDate).DateTime;
 
                 // Custom validation of invite based on the date it was issued
                 // In this case we are allowing an invite to be valid for 7 days

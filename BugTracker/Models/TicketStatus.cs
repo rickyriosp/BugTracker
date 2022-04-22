@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models
 {
@@ -6,6 +7,7 @@ namespace BugTracker.Models
     {
         public int Id { get; set; }
 
+        [Required]
         [DisplayName("Status Name")]
         public string Name { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models
 {
@@ -6,11 +7,13 @@ namespace BugTracker.Models
     {
         public int Id { get; set; }
 
+        [Required]
+        [StringLength(100)]
         [DisplayName("Company Name")]
         public string Name { get; set; }
 
         [DisplayName("Company Description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
 
         // Navigation properties
