@@ -44,7 +44,7 @@ namespace BugTracker.Models
         public string? ImageContentType { get; set; }
 
         [DisplayName("Archived")]
-        public bool Archived { get; set; } = false;
+        public bool? Archived { get; set; } = false;
 
 
         // Navigation properties

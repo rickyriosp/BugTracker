@@ -31,7 +31,7 @@ namespace BugTracker.Models
         public string SenderId { get; set; }
 
         [DisplayName("Has been viewed")]
-        public bool Viewed { get; set; } = false;
+        public bool? Viewed { get; set; } = false;
 
 
         // Navigation properties

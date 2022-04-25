@@ -1,10 +1,13 @@
 ﻿using BugTracker.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BugTracker.Services.Interfaces
 {
     public interface IBTRolesService
     {
         Task<bool> AddUserToRoleAsync(BTUser user, string roleName);
+
+        Task<List<IdentityRole>> GetAllRolesAsync();
         
         Task<string> GetRoleNameByIdAsync(string roleId);
 

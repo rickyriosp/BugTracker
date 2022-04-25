@@ -7,7 +7,7 @@ namespace BugTracker.Extensions
     {
         public static int? GetCompanyId(this IIdentity identity)
         {
-            Claim claim = ((ClaimsIdentity)identity).FindFirst("CompanyId");
+            Claim? claim = ((ClaimsIdentity)identity).FindFirst("CompanyId");
 
             return (claim != null) ? int.Parse(claim.Value) : null;
         }

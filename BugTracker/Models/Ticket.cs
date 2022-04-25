@@ -25,7 +25,7 @@ namespace BugTracker.Models
         public DateTimeOffset? Updated { get; set; }
 
         [DisplayName("Archived")]
-        public bool Archived { get; set; } = false;
+        public bool? Archived { get; set; } = false;
 
         [DisplayName("Project")]
         public int? ProjectId { get; set; }

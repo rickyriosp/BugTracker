@@ -1,7 +1,9 @@
 ﻿using BugTracker.Data;
 using BugTracker.Models;
+using BugTracker.Models.Enums;
 using BugTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Services
 {
@@ -23,6 +25,22 @@ namespace BugTracker.Services
             bool result = (await _userManager.AddToRoleAsync(user, roleName)).Succeeded;
 
             return result;
+        }
+        
+        public async Task<List<IdentityRole>> GetAllRolesAsync()
+        {
+            try
+            {
+                List<IdentityRole> result = new();
+                result = await _context.Roles.ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** ERROR ***** - Error Retrieving All Roles. ---> {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<string> GetRoleNameByIdAsync(string roleId)
@@ -78,5 +96,6 @@ namespace BugTracker.Services
 
             return result;
         }
+
     }
 }

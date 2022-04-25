@@ -39,7 +39,7 @@ namespace BugTracker.Models
         [DisplayName("Invitee Last Name")]
         public string? InviteeLastName { get; set; }
 
-        public bool IsValid { get; set; } = false;
+        public bool? IsValid { get; set; } = false;
 
 
         // Navigation properties
