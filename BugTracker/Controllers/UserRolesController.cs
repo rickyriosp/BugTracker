@@ -3,6 +3,7 @@ using BugTracker.Models;
 using BugTracker.Models.Enums;
 using BugTracker.Models.ViewModels;
 using BugTracker.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,6 +20,8 @@ namespace BugTracker.Controllers
             _companyInfoService = companyInfoService;
         }
 
+        [HttpGet]
+        [Authorize(Roles = ("Admin"))]
         public async Task<IActionResult> ManageUserRoles()
         {
             List<ManageUserRolesViewModel> model = new();
