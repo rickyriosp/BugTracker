@@ -99,8 +99,8 @@ namespace BugTracker.Controllers
                     }
 
                     model.Project.CompanyId = companyId;
-                    model.Project.StartDate = model.Project.StartDate.Value.UtcDateTime;
-                    model.Project.EndDate = model.Project.EndDate.Value.UtcDateTime;
+                    model.Project.StartDate = model.Project.StartDate.UtcDateTime;
+                    model.Project.EndDate = model.Project.EndDate.UtcDateTime;
 
                     await _projectService.AddNewProjectAsync(model.Project);
 
@@ -151,7 +151,7 @@ namespace BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AddProjectWithPMViewModel model)
+        public async Task<IActionResult> Edit(AddProjectWithPMViewModel model)
         {
             //if (id != model.Project.Id)
             //{
@@ -170,8 +170,8 @@ namespace BugTracker.Controllers
                     }
 
                     //model.Project.CompanyId = companyId;
-                    model.Project.StartDate = model.Project.StartDate.Value.UtcDateTime;
-                    model.Project.EndDate = model.Project.EndDate.Value.UtcDateTime;
+                    model.Project.StartDate = model.Project.StartDate.UtcDateTime;
+                    model.Project.EndDate = model.Project.EndDate.UtcDateTime;
 
                     await _projectService.UpdateProjectAsync(model.Project);
 
@@ -194,18 +194,16 @@ namespace BugTracker.Controllers
             return RedirectToAction(nameof(Edit));
         }
 
-        // GET: Projects/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Projects/Archive/5
+        public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var project = await _context.Projects
-                .Include(p => p.Company)
-                .Include(p => p.ProjectPriority)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
             if (project == null)
             {
                 return NotFound();
@@ -214,14 +212,47 @@ namespace BugTracker.Controllers
             return View(project);
         }
 
-        // POST: Projects/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Projects/Archive/5
+        [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> ArchiveConfirmed(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id, companyId);
+            
+            await _projectService.ArchiveProjectAsync(project);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Projects/Restore/5
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
+        // POST: Projects/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id, companyId);
+
+            await _projectService.RestoreProjectAsync(project);
+
             return RedirectToAction(nameof(Index));
         }
 

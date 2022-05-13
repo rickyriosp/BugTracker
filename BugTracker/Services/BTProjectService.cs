@@ -20,34 +20,94 @@ namespace BugTracker.Services
         // CRUD Methods
         public async Task AddNewProjectAsync(Project project)
         {
-            await _context.AddAsync(project);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.AddAsync(project);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
-            Project? project = await _context.Projects
-                .Include(p => p.Tickets)
-                .Include(p => p.Members)
-                .Include(p => p.ProjectPriority)
-                .AsSplitQuery()
-                .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
+            try
+            {
+                Project? project = await _context.Projects
+                        .Include(p => p.Tickets)
+                        .Include(p => p.Members)
+                        .Include(p => p.ProjectPriority)
+                        .AsSplitQuery()
+                        .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
 
-            return project!;
-        }
-        
-        public async Task ArchiveProjectAsync(Project project)
-        {
-            project.Archived = true;
+                return project!;
+            }
+            catch (Exception)
+            {
 
-            _context.Projects.Update(project);
-            await _context.SaveChangesAsync();
+                throw;
+            }
         }
         
         public async Task UpdateProjectAsync(Project project)
         {
-            _context.Update(project);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Update(project);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        
+        public async Task ArchiveProjectAsync(Project project)
+        {
+            try
+            {
+                project.Archived = true;
+                await UpdateProjectAsync(project);
+
+                // Archive the Tickets for the Project
+                foreach (Ticket ticket in project.Tickets)
+                {
+                    ticket.ArchivedByProject = true;
+                    _context.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task RestoreProjectAsync(Project project)
+        {
+            try
+            {
+                project.Archived = false;
+                await UpdateProjectAsync(project);
+
+                // Archive the Tickets for the Project
+                foreach (Ticket ticket in project.Tickets)
+                {
+                    ticket.ArchivedByProject = false;
+                    _context.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 
@@ -122,32 +182,40 @@ namespace BugTracker.Services
 
         public async Task<List<Project>> GetAllProjectsByCompanyAsync(int companyId)
         {
-            List<Project> projects = await _context.Projects
-                .Where(p => p.CompanyId == companyId && p.Archived == false)
-                .Include(p => p.ProjectPriority)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.TicketType)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.TicketPriority)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.TicketStatus)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.OwnerUser)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.DeveloperUser)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.Comments)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.Attachments)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.History)
-                .Include(p => p.Tickets)
-                    .ThenInclude(t => t.Notifications)
-                .Include(p => p.Members)
-                .AsSplitQuery()
-                .ToListAsync();
+            try
+            {
+                List<Project> projects = await _context.Projects
+                        .Where(p => p.CompanyId == companyId && p.Archived == false)
+                        .Include(p => p.ProjectPriority)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.TicketType)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.TicketPriority)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.TicketStatus)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.OwnerUser)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.DeveloperUser)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.Comments)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.Attachments)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.History)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.Notifications)
+                        .Include(p => p.Members)
+                        .AsSplitQuery()
+                        .ToListAsync();
 
-            return projects;
+                return projects;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<List<Project>> GetAllProjectsByPriorityAsync(int companyId, string priorityName)
@@ -174,38 +242,54 @@ namespace BugTracker.Services
 
         public async Task<BTUser> GetProjectManagerAsync(int projectId)
         {
-            Project? project = await _context.Projects
-                .Include(p => p.Members)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-
-            foreach (var user in project.Members)
+            try
             {
-                if (await _rolesService.IsUserInRoleAsync(user, Roles.ProjectManager.ToString()))
-                {
-                    return user;
-                }
-            }
+                Project? project = await _context.Projects
+                        .Include(p => p.Members)
+                        .FirstOrDefaultAsync(p => p.Id == projectId);
 
-            return null;
+                foreach (var user in project.Members)
+                {
+                    if (await _rolesService.IsUserInRoleAsync(user, Roles.ProjectManager.ToString()))
+                    {
+                        return user;
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
         {
-            Project? project = await _context.Projects
-                .Include(p => p.Members)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-
-            List<BTUser> members = new();
-
-            foreach (var user in project.Members)
+            try
             {
-                if (await _rolesService.IsUserInRoleAsync(user, role))
-                {
-                    members.Add(user);
-                }
-            }
+                Project? project = await _context.Projects
+                        .Include(p => p.Members)
+                        .FirstOrDefaultAsync(p => p.Id == projectId);
 
-            return members;
+                List<BTUser> members = new();
+
+                foreach (var user in project.Members)
+                {
+                    if (await _rolesService.IsUserInRoleAsync(user, role))
+                    {
+                        members.Add(user);
+                    }
+                }
+
+                return members;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<List<BTUser>> GetSubmittersOnProjectAsync(int projectId)
@@ -256,20 +340,28 @@ namespace BugTracker.Services
 
         public async Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
         {
-            List<BTUser> users = await _context.Users
-                .Where(u => u.Projects.All(p => p.Id != projectId)).ToListAsync();
+            try
+            {
+                List<BTUser> users = await _context.Users
+                       .Where(u => u.Projects.All(p => p.Id != projectId)).ToListAsync();
 
-            return users.Where(u => u.CompanyId == companyId).ToList();
+                return users.Where(u => u.CompanyId == companyId).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task RemoveProjectManagerAsync(int projectId)
         {
-            Project? project = await _context.Projects
-                .Include(p => p.Members)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-
             try
             {
+                Project? project = await _context.Projects
+                    .Include(p => p.Members)
+                    .FirstOrDefaultAsync(p => p.Id == projectId);
+
                 foreach (var user in project.Members)
                 {
                     if (await _rolesService.IsUserInRoleAsync(user, Roles.ProjectManager.ToString()))
@@ -342,25 +434,41 @@ namespace BugTracker.Services
         
         public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
-            Project? project = await _context.Projects
-                .Include(p => p.Members)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-
-            bool result = false;
-
-            if (project != null)
+            try
             {
-                result = project.Members.Any(m => m.Id == userId);
+                Project? project = await _context.Projects
+                        .Include(p => p.Members)
+                        .FirstOrDefaultAsync(p => p.Id == projectId);
+
+                bool result = false;
+
+                if (project != null)
+                {
+                    result = project.Members.Any(m => m.Id == userId);
+                }
+
+                return result;
             }
-            
-            return result;
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<int> LookupProjectPriorityIdAsync(string priorityName)
         {
-            int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
+            try
+            {
+                int priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
 
-            return priorityId;
+                return priorityId;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

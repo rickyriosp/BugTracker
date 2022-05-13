@@ -10,6 +10,7 @@ namespace BugTracker.Services.Interfaces
         Task<Project> GetProjectByIdAsync(int projectId, int companyId);
         Task UpdateProjectAsync(Project project);
         Task ArchiveProjectAsync(Project project);
+        Task RestoreProjectAsync(Project project);
 
         Task<bool> AddProjectManagerAsync(string userId, int projectId);
         Task<bool> AddUserToProjectAsync(string userId, int projectId);
