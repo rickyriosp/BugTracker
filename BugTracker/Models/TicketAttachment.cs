@@ -9,20 +9,20 @@ namespace BugTracker.Models
         public int Id { get; set; }
 
         [DisplayName("Ticket")]
-        public int? TicketId { get; set; }
+        public int TicketId { get; set; }
 
         [DisplayName("File Date")]
-        public DateTimeOffset? Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [DisplayName("Team Member")]
-        public string? UserId { get; set; }
+        public string UserId { get; set; }
 
         [DisplayName("File Description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [NotMapped]
         [DataType(DataType.Upload)]
-        public IFormFile FormFile { get; set; }
+        public IFormFile? FormFile { get; set; }
 
         [DisplayName("File Name")]
         public string? FileName { get; set; }

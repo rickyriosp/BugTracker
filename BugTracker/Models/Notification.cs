@@ -8,7 +8,7 @@ namespace BugTracker.Models
         public int Id { get; set; }
 
         [DisplayName("Ticket")]
-        public int? TicketId { get; set; }
+        public int TicketId { get; set; }
 
         [Required]
         [DisplayName("Title")]
@@ -20,7 +20,7 @@ namespace BugTracker.Models
 
         [DataType(DataType.DateTime)]
         [DisplayName("Date")]
-        public DateTimeOffset? Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [Required]
         [DisplayName("Recipient")]

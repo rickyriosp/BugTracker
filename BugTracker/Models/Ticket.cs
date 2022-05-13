@@ -18,7 +18,7 @@ namespace BugTracker.Models
 
         [DataType(DataType.Date)]
         [DisplayName("Created")]
-        public DateTimeOffset? Created { get; set; }
+        public DateTimeOffset Created { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayName("Updated")]
@@ -31,19 +31,19 @@ namespace BugTracker.Models
         public bool? ArchivedByProject { get; set; } = false;
 
         [DisplayName("Project")]
-        public int? ProjectId { get; set; }
+        public int ProjectId { get; set; }
 
         [DisplayName("Ticket Type")]
-        public int? TicketTypeId { get; set; }
+        public int TicketTypeId { get; set; }
 
         [DisplayName("Ticket Priority")]
-        public int? TicketPriorityId { get; set; }
+        public int TicketPriorityId { get; set; }
 
         [DisplayName("Ticket Status")]
         public int? TicketStatusId { get; set; }
 
         [DisplayName("Ticket Owner")]
-        public string? OwnerUserId { get; set; }
+        public string OwnerUserId { get; set; }
 
         [DisplayName("Ticket Developer")]
         public string? DeveloperUserId { get; set; }
