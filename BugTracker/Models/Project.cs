@@ -32,7 +32,7 @@ namespace BugTracker.Models
 
         [NotMapped]
         [DataType(DataType.Upload)]
-        public IFormFile ImageFormFile { get; set; }
+        public IFormFile? ImageFormFile { get; set; }
 
         [DisplayName("File Name")]
         public string? ImageFileName { get; set; }
