@@ -32,8 +32,9 @@ namespace BugTracker.Models
         [DisplayName("File Extension")]
         public string? AvatarContentType { get; set; }
 
+        [Required]
         [DisplayName("Company")]
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
 
         // Navigation properties
