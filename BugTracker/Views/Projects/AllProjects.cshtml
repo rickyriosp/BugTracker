@@ -1,11 +1,18 @@
 ﻿@using BugTracker.Models.Enums
+@using BugTracker.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<BTUser> UserManager
+@inject IBTProjectService ProjectService
 @model IEnumerable<BugTracker.Models.Project>
 
 @{
-    ViewData["Title"] = "My Projects";
+    ViewData["Title"] = "All Projects";
+
+    BTUser btUser = await UserManager.GetUserAsync(User);
 }
 
-<h1>My Projects</h1>
+<h1>All Projects</h1>
 
 @if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
 {
@@ -85,7 +92,11 @@
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 
-                @if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
+                @{
+                    bool isProjectPM = (await ProjectService.GetProjectManagerAsync(item.Id))?.Id == btUser.Id;
+                }
+
+                @if (User.IsInRole(nameof(Roles.Admin)) || isProjectPM)
                 {
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
 
