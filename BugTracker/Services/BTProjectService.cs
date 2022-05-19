@@ -36,18 +36,27 @@ namespace BugTracker.Services
         {
             try
             {
-                Project? project = await _context.Projects
+                Project project = await _context.Projects
                         .Include(p => p.Tickets)
+                            .ThenInclude(t => t.TicketPriority)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.TicketStatus)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.TicketType)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.DeveloperUser)
+                        .Include(p => p.Tickets)
+                            .ThenInclude(t => t.OwnerUser)
                         .Include(p => p.Members)
                         .Include(p => p.ProjectPriority)
                         .AsSplitQuery()
                         .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId);
 
-                return project!;
+                return project;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"***** ERROR ***** - Error Retrieving Project by Id. ---> {ex.Message}");
                 throw;
             }
         }
