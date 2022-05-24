@@ -25,10 +25,10 @@ namespace BugTracker.Models
         public DateTimeOffset? Updated { get; set; }
 
         [DisplayName("Archived")]
-        public bool? Archived { get; set; } = false;
+        public bool Archived { get; set; } = false;
 
         [DisplayName("Archived By Project")]
-        public bool? ArchivedByProject { get; set; } = false;
+        public bool ArchivedByProject { get; set; } = false;
 
         [DisplayName("Project")]
         public int ProjectId { get; set; }
@@ -51,12 +51,12 @@ namespace BugTracker.Models
 
         // Navigation properties
         // virtual allows EF Core to do lazy loading and modify tracking
-        public virtual Project Project { get; set; }
-        public virtual TicketType TicketType { get; set; }
-        public virtual TicketPriority TicketPriority { get; set; }
-        public virtual TicketStatus TicketStatus { get; set; }
-        public virtual BTUser OwnerUser { get; set; }
-        public virtual BTUser DeveloperUser { get; set; }
+        public virtual Project? Project { get; set; }
+        public virtual TicketType? TicketType { get; set; }
+        public virtual TicketPriority? TicketPriority { get; set; }
+        public virtual TicketStatus? TicketStatus { get; set; }
+        public virtual BTUser? OwnerUser { get; set; }
+        public virtual BTUser? DeveloperUser { get; set; }
 
         public virtual ICollection<TicketComment> Comments { get; set; } = new HashSet<TicketComment>();
         public virtual ICollection<TicketAttachment> Attachments { get; set; } = new HashSet<TicketAttachment>();

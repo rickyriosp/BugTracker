@@ -69,7 +69,7 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Archived.Value)
+                @Html.DisplayFor(modelItem => item.Archived)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Company.Name)
@@ -80,7 +80,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @if (item.Archived.Value)
+                @if (item.Archived)
                 {
                     <a asp-action="Restore" asp-route-id="@item.Id">Restore</a>
                 }
