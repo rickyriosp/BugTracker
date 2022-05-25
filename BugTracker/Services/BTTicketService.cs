@@ -144,6 +144,20 @@ namespace BugTracker.Services
             }
         }
 
+        public async Task<List<Ticket>> GetArchivedTicketsAsync(int companyId)
+        {
+            try
+            {
+                List<Ticket> tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.Archived == true).ToList();
+
+                return tickets;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
         {
             try
@@ -174,7 +188,7 @@ namespace BugTracker.Services
         public async Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
         {
             int priorityId = (await LookupTicketPriorityIdAsync(priorityName)).Value;
-            
+
             try
             {
                 List<Ticket> tickets = await _context.Projects
@@ -261,16 +275,18 @@ namespace BugTracker.Services
             }
         }
 
-        public async Task<List<Ticket>> GetArchivedTicketsAsync(int companyId)
+        public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
         {
             try
             {
-                List<Ticket> tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => t.Archived == true).ToList();
-
-                return tickets;
+                TicketAttachment ticketAttachment = await _context.TicketAttachments
+                                                                  .Include(t => t.User)
+                                                                  .FirstOrDefaultAsync(t => t.Id == ticketAttachmentId);
+                return ticketAttachment;
             }
             catch (Exception)
             {
+
                 throw;
             }
         }
@@ -338,7 +354,7 @@ namespace BugTracker.Services
             try
             {
                 Ticket? ticket = (await GetAllTicketsByCompanyAsync(companyId)).FirstOrDefault(t => t.Id == ticketId);
-                
+
                 if (ticket?.DeveloperUserId != null)
                 {
                     developer = ticket.DeveloperUser;

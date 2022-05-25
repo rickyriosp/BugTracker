@@ -4,7 +4,13 @@ namespace BugTracker.Services
 {
     public class BTFileService : IBTFileService
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
+        public BTFileService(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
 
         public string ConvertByteArrayToFile(byte[] fileData, string extension)
         {
@@ -63,6 +69,11 @@ namespace BugTracker.Services
             if (!string.IsNullOrWhiteSpace(file))
             {
                 fileImage = Path.GetExtension(file).Replace(".", "");
+            }
+
+            if (!File.Exists(Path.Combine(_environment.WebRootPath, $"img/contenttype/{fileImage}.png")))
+            {
+                return $"/img/contenttype/default.png";
             }
 
             return $"/img/contenttype/{fileImage}.png";

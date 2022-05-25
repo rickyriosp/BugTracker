@@ -25,7 +25,7 @@ namespace BugTracker.Models
         [DataType(DataType.Upload)]
         [DisplayName("Select a file")]
         [MaxFileSize(1024 * 1024)]
-        [AllowedExtensions(new string[] {".jpg",".png",".doc",".docx",".xls",".xlsx",".pdf"})]
+        [AllowedExtensions(new string[] { ".jpg",".png",".doc",".docx",".xls",".xlsx",".pdf",".ppt", ".pptx", ".html" })]
         public IFormFile? FormFile { get; set; }
 
         [DisplayName("File Name")]
