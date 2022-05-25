@@ -93,15 +93,7 @@ namespace BugTracker.Controllers
                 return NotFound();
             }
 
-            var ticket = await _context.Tickets
-                .Include(t => t.DeveloperUser)
-                .Include(t => t.OwnerUser)
-                .Include(t => t.Project)
-                .Include(t => t.TicketPriority)
-                .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType)
-                .AsSplitQuery()
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var ticket = await _ticketService.GetTicketByIdAsync(id.Value);
             if (ticket == null)
             {
                 return NotFound();
@@ -234,6 +226,30 @@ namespace BugTracker.Controllers
             ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name", ticket.TicketTypeId);
 
             return View(ticket);
+        }
+
+        // POST: Tickets/AddTicketComment
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTicketComment([Bind("Id, TicketId, Comment")] TicketComment ticketComment)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    ticketComment.UserId = _userManager.GetUserId(User);
+                    ticketComment.Created = DateTimeOffset.UtcNow;
+
+                    await _ticketService.AddTicketCommentAsync(ticketComment);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Details), new { id = ticketComment.TicketId });
         }
 
         // GET: Tickets/Archive/5

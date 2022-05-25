@@ -45,6 +45,7 @@ namespace BugTracker.Services
                         .Include(t => t.TicketStatus)
                         .Include(t => t.TicketType)
                         .Include(t => t.Comments)
+                        .Include(t => t.Attachments)
                         .Include(t => t.History)
                         .AsSplitQuery()
                         .FirstOrDefaultAsync(t => t.Id == ticketId);
@@ -85,6 +86,20 @@ namespace BugTracker.Services
             }
         }
 
+
+        public async Task AddTicketCommentAsync(TicketComment ticketComment)
+        {
+            try
+            {
+                await _context.AddAsync(ticketComment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** ERROR ***** - Error Adding New Comment. ---> {ex.Message}");
+                throw;
+            }
+        }
 
         public async Task AssignTicketAsync(int ticketId, string userId)
         {

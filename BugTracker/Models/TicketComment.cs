@@ -16,11 +16,11 @@ namespace BugTracker.Models
         public DateTimeOffset Created { get; set; }
 
         [DisplayName("Team Member")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
 
         // Navigation properties
-        public virtual Ticket Ticket { get; set; }
-        public virtual BTUser User { get; set; }
+        public virtual Ticket? Ticket { get; set; }
+        public virtual BTUser? User { get; set; }
     }
 }
