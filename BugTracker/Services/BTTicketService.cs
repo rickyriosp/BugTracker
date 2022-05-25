@@ -101,6 +101,20 @@ namespace BugTracker.Services
             }
         }
 
+        public async Task AddTicketAttachmentAsync(TicketAttachment ticketAttachment)
+        {
+            try
+            {
+                await _context.AddAsync(ticketAttachment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** ERROR ***** - Error Adding Ticket Attachment. ---> {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task AssignTicketAsync(int ticketId, string userId)
         {
             try
