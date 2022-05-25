@@ -28,6 +28,7 @@ namespace BugTracker.Services.Interfaces
         Task RemoveUserFromProjectAsync(string userId, int projectId);
         Task RemoveUsersFromProjectByRoleAsync(string role, int projectId);
 
+        Task<bool> IsAssignedProjectManagerAsync(string userId, int projectId);
         Task<bool> IsUserOnProjectAsync(string userId, int projectId);
         Task<int> LookupProjectPriorityIdAsync(string priorityName);
     }

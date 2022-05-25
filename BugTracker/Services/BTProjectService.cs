@@ -464,6 +464,20 @@ namespace BugTracker.Services
         }
         
         
+        public async Task<bool> IsAssignedProjectManagerAsync(string userId, int projectId)
+        {
+            try
+            {
+                string projectManagerId = (await GetProjectManagerAsync(projectId))?.Id;
+                return projectManagerId == userId;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** ERROR ***** - Error Checking Assigned Project Manager. ---> {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
             try
