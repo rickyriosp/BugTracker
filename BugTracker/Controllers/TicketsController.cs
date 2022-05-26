@@ -119,7 +119,7 @@ namespace BugTracker.Controllers
             }
         }
 
-        // GET: Tickets/AssignDeveloper
+        // GET: Tickets/AssignDeveloper/5
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int id)
         {
@@ -127,10 +127,24 @@ namespace BugTracker.Controllers
 
             model.Ticket = await _ticketService.GetTicketByIdAsync(id);
             model.Developers = new SelectList(await _projectService.GetProjectMembersByRoleAsync(
-                                                                    model.Ticket.Id, nameof(Roles.Developer)),
+                                                                    model.Ticket.ProjectId, nameof(Roles.Developer)),
                                                                     "Id", "Full Name");
 
             return View(model);
+        }
+
+        // POST: Tickets/AssignDeveloper
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
+        {
+            if (model.DeveloperId != null)
+            {
+                await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                return RedirectToAction(nameof(Details), new { id = model.Ticket.Id });
+            }
+
+            return RedirectToAction(nameof(AssignDeveloper), new { id = model.Ticket.Id });
         }
 
         // GET: Tickets/Details/5
