@@ -75,7 +75,6 @@
                                 <h2>Comments</h2>
                             </div>
                             <div class="card-body" style="overflow-y:auto;height:600px;">
-
                                 @*Form and Logic for authorized users to add comments*@
                                 <form class="form-horizontal form-bordered" asp-action="AddTicketComment" asp-controller="Tickets" method="post">
                                     <input type="hidden" asp-for="Id" name="TicketId" />
@@ -138,9 +137,6 @@
                                 <h2>Attachments</h2>
                             </div>
                             <div class="card-body" style="overflow-y:auto;height:300px;">
-
-                                @* Refer to the Ticket Attachments document for this section *@
-
                                 @* Ticket attachments part 1 here *@
                                 <div class="row clearfix">
                                     <div>
@@ -200,6 +196,19 @@
                         </div>
                         <div class="card-body" style="overflow-y:auto;height:1000px;background-color:antiquewhite">
                             @*Loop to show the history entries for the Ticket*@
+                            @foreach (var history in Model.History)
+                            {
+                                <div>
+                                    <span class="date">@history.Created.ToString("dd MMM, yyyy")</span>
+                                    <h6>@history.Description</h6>
+                                    <span>By: <a href="" title="@history.User.FullName">@history.User.FullName</a></span>
+                                    <div>
+                                        <p>The ticket <b>@history.Property</b> was edited</p>
+                                        <p>@($"Previous {history.Property}: {history.OldValue}")</p>
+                                        <p>@($"Current {history.Property}: {history.NewValue}")</p>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
