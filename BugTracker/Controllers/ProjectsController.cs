@@ -98,15 +98,30 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/AssignPM
-        public async Task<IActionResult> AssignPM(int id)
+        public async Task<IActionResult> AssignPM(int projectId)
         {
             int companyId = User.Identity.GetCompanyId().Value;
             
             AssignPMViewModel model = new();
-            model.Project = await _projectService.GetProjectByIdAsync(id, companyId);
+            model.Project = await _projectService.GetProjectByIdAsync(projectId, companyId);
             model.PMList = new SelectList(await _rolesService.GetUsersInRoleAsync(nameof(Roles.ProjectManager), companyId), "Id", "FullName");
 
             return View(model);
+        }
+
+        // POST: Projects/AssignPM
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignPM(AssignPMViewModel model)
+        {
+            if (!string.IsNullOrEmpty(model.PMId))
+            {
+                await _projectService.AddProjectManagerAsync(model.PMId, model.Project.Id);
+
+                return RedirectToAction(nameof(Details), new { id = model.Project.Id });
+            }
+
+            return RedirectToAction(nameof(AssignPM), new { projectId = model.Project.Id });
         }
 
         // GET: Projects/Details/5
