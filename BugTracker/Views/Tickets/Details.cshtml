@@ -17,6 +17,7 @@
 }
 
 <h1>Ticket Details</h1>
+
 @if (!string.IsNullOrEmpty(Model.DeveloperUserId))
 {
     <a href="javascript:void(0);">
@@ -33,7 +34,6 @@
         Developer: <strong>@Model.DeveloperUser.FullName</strong>
     </span>
 }
-
 
 <div>
     <div classxfont-weighteighteightgetainer-fluid">
@@ -106,7 +106,7 @@
                                     else
                                     {
                                         <div class="form-group">
-                                            <textarea disabled asp-form="@(new TicketComment().Comment)" rows="8" class="form-control" required placeholder="Add comment ..."></textarea>
+                                            <textarea asp-for="@(new TicketComment().Comment)" rows="8" class="form-control" disabled required placeholder="Add comment ..."></textarea>
                                         </div>
                                     }
                                 </form>
@@ -121,7 +121,7 @@
                                         <li class="online mb-4">
                                             <div class="media">
                                                 <a href="javascript:void(0);">
-                                                    @if (btUser?.AvatarFileData != null)
+                                                    @if (comment.User?.AvatarFileData != null)
                                                     {
                                                         <img class="media-object" src="data:image/*;base64,@(Convert.ToBase64String(btUser.AvatarFileData))" alt="user avatar">
                                                     }
@@ -133,7 +133,7 @@
                                                 <div class="media-body">
                                                     <span class="text-muted" style="font-size:x-small;">
                                                         @@ @comment.User.FullName
-                                                        <small class="float-end">@comment.Created.ToString("MM.dd.yyyy h:ss: tt")</small>:
+                                                        <small class="float-end">@comment.Created.ToLocalTime().ToString("MM.dd.yyyy h:ss: tt")</small>:
                                                     </span>
                                                 </div>
                                                 <span class="message text-primary">@Html.Raw(comment.Comment)</span>

@@ -17,6 +17,7 @@ using BugTracker.Models.ViewModels;
 
 namespace BugTracker.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private readonly UserManager<BTUser> _userManager;
@@ -76,8 +77,8 @@ namespace BugTracker.Controllers
             return View(tickets);
         }
 
-        [Authorize(Roles = "Admin,ProjectManager")]
         // GET: Tickets/UnassignedTickets
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> UnassignedTickets()
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -106,7 +107,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Tickets/AssignDeveloper/5
-        [HttpGet]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> AssignDeveloper(int id)
         {
             AssignDeveloperViewModel model = new();
@@ -122,6 +123,7 @@ namespace BugTracker.Controllers
         // POST: Tickets/AssignDeveloper
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
         {
             if (model.DeveloperId != null)
@@ -384,6 +386,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Tickets/Archive/5
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
@@ -403,16 +406,18 @@ namespace BugTracker.Controllers
         // POST: Tickets/Archive/5
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> ArchiveConfirmed(int id)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
 
             await _ticketService.ArchiveTicketAsync(ticket);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllTickets));
         }
 
         // GET: Tickets/Restore/5
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Restore(int? id)
         {
             if (id == null)
@@ -432,6 +437,7 @@ namespace BugTracker.Controllers
         // POST: Tickets/Restore/5
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> RestoreConfirmed(int id)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
@@ -439,7 +445,7 @@ namespace BugTracker.Controllers
 
             await _ticketService.UpdateTicketAsync(ticket);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllTickets));
         }
 
         private async Task<bool> TicketExists(int id)
