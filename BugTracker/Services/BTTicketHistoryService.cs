@@ -25,7 +25,7 @@ namespace BugTracker.Services
                     Property = "",
                     OldValue = "",
                     NewValue = "",
-                    Created = DateTimeOffset.Now,
+                    Created = DateTimeOffset.UtcNow,
                     UserId = userId,
                     Description = "New Ticket Created"
                 };
@@ -52,7 +52,7 @@ namespace BugTracker.Services
                         Property = "Title",
                         OldValue = oldTicket.Title,
                         NewValue = newTicket.Title,
-                        Created = DateTimeOffset.Now,
+                        Created = DateTimeOffset.UtcNow,
                         UserId = userId,
                         Description = $"New Ticket Title: {newTicket.Title}"
                     };
@@ -69,7 +69,7 @@ namespace BugTracker.Services
                         Property = "Description",
                         OldValue = oldTicket.Description,
                         NewValue = newTicket.Description,
-                        Created = DateTimeOffset.Now,
+                        Created = DateTimeOffset.UtcNow,
                         UserId = userId,
                         Description = $"New Ticket Description: {newTicket.Description}"
                     };
@@ -86,7 +86,7 @@ namespace BugTracker.Services
                         Property = "TicketPriority",
                         OldValue = oldTicket.TicketPriority.Name,
                         NewValue = newTicket.TicketPriority.Name,
-                        Created = DateTimeOffset.Now,
+                        Created = DateTimeOffset.UtcNow,
                         UserId = userId,
                         Description = $"New Ticket Priority: {newTicket.TicketPriority.Name}"
                     };
@@ -103,7 +103,7 @@ namespace BugTracker.Services
                         Property = "TicketStatus",
                         OldValue = oldTicket.TicketStatus.Name,
                         NewValue = newTicket.TicketStatus.Name,
-                        Created = DateTimeOffset.Now,
+                        Created = DateTimeOffset.UtcNow,
                         UserId = userId,
                         Description = $"New Ticket Status: {newTicket.TicketStatus.Name}"
                     };
@@ -120,7 +120,7 @@ namespace BugTracker.Services
                         Property = "TicketType",
                         OldValue = oldTicket.TicketType.Name,
                         NewValue = newTicket.TicketType.Name,
-                        Created = DateTimeOffset.Now,
+                        Created = DateTimeOffset.UtcNow,
                         UserId = userId,
                         Description = $"New Ticket Type: {newTicket.TicketType.Name}"
                     };
@@ -135,9 +135,9 @@ namespace BugTracker.Services
                     {
                         TicketId = newTicket.Id,
                         Property = "Developer",
-                        OldValue = oldTicket.DeveloperUser.FullName ?? "Not Assigned",
-                        NewValue = newTicket.DeveloperUser.FullName,
-                        Created = DateTimeOffset.Now,
+                        OldValue = oldTicket.DeveloperUser?.FullName ?? "Not Assigned",
+                        NewValue = newTicket.DeveloperUser?.FullName,
+                        Created = DateTimeOffset.UtcNow,
                         UserId = userId,
                         Description = $"New Ticket Developer: {newTicket.DeveloperUser.FullName}"
                     };
