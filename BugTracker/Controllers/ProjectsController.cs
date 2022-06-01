@@ -77,6 +77,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/UnassignedProjects
+        [Authorize(Roles = nameof(Roles.Admin))]
         public async Task<IActionResult> UnassignedProjects()
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -88,6 +89,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/AssignPM
+        [Authorize(Roles = nameof(Roles.Admin))]
         public async Task<IActionResult> AssignPM(int projectId)
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -102,6 +104,7 @@ namespace BugTracker.Controllers
         // POST: Projects/AssignPM
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Roles.Admin))]
         public async Task<IActionResult> AssignPM(AssignPMViewModel model)
         {
             if (!string.IsNullOrEmpty(model.PMId))
@@ -115,6 +118,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/AssignMembers
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> AssignMembers(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -182,6 +186,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Create()
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -198,6 +203,7 @@ namespace BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Create(AddProjectWithPMViewModel model)
         {
             if (model != null)
@@ -239,6 +245,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -266,6 +273,7 @@ namespace BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Edit(AddProjectWithPMViewModel model)
         {
             //if (id != model.Project.Id)
@@ -316,6 +324,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Archive/5
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
@@ -336,6 +345,7 @@ namespace BugTracker.Controllers
         // POST: Projects/Archive/5
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> ArchiveConfirmed(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -347,6 +357,7 @@ namespace BugTracker.Controllers
         }
 
         // GET: Projects/Restore/5
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> Restore(int? id)
         {
             if (id == null)
@@ -367,6 +378,7 @@ namespace BugTracker.Controllers
         // POST: Projects/Restore/5
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
         public async Task<IActionResult> RestoreConfirmed(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
